@@ -1,6 +1,6 @@
 #Medidas de la ventana
-WIDTH_WINDOW = 800
-HEIGHT_WINDOW = 600
+WIDTH_WINDOW = 1024
+HEIGHT_WINDOW = 768
 
 #Medidas del jugador
 WIDTH_CHARACTER = 20
