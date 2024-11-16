@@ -6,7 +6,7 @@ player = Character(50, 50)
 
 pygame.init()
 
-screen = pygame.display.set_mode((constants.WIDTH_WINDOW, constants.HEIGHT_WINDOW))
+screen = pygame.display.set_mode((constants.WIDTH_SCREEN, constants.HEIGHT_SCREEN))
 
 pygame.display.set_caption("Boss Adventure")
 
