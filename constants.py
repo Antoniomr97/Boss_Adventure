@@ -1,0 +1,15 @@
+#Medidas de la ventana
+WIDTH_WINDOW = 800
+HEIGHT_WINDOW = 600
+
+#Medidas del jugador
+WIDTH_CHARACTER = 20
+HEIGHT_CHARACTER = 20
+COLOR_CHARACTER = (255, 255, 0)
+SPEED_CHARACTER = 5
+
+#Background
+COLOR_BG = (0, 0, 20)
+
+#FPS
+FPS = 60
