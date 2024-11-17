@@ -1,14 +1,27 @@
 import pygame
 import constants
-from character import Character
-
-player = Character(50, 50)
+from player import Player
 
 pygame.init()
 
 screen = pygame.display.set_mode((constants.WIDTH_SCREEN, constants.HEIGHT_SCREEN))
 
 pygame.display.set_caption("Boss Adventure")
+
+def scaleImages(image, scale):
+     w = image.get_width()
+     h = image.get_height()
+     newImage = pygame.transform.scale(image, size=(w * scale, h * scale))
+     return newImage
+
+animations =[]
+
+for i in range(4):
+     img = pygame.image.load(f"assets//images//characters//player//walking//Walk{i +1}.png")
+     img = scaleImages(img, constants.SCALE_CHARACTER)
+     animations.append(img)
+
+player = Player(50, 50, animations)
 
 #Movements Player Vars
 move_up = False
@@ -47,6 +60,8 @@ while run:
     #Move the player
 
     player.movement(delta_x, delta_y)
+
+    player.update()
 
     player.draw(screen)
 
