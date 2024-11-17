@@ -11,7 +11,7 @@ pygame.display.set_caption("Boss Adventure")
 def scaleImages(image, scale):
     w = image.get_width()
     h = image.get_height()
-    newImage = pygame.transform.scale(image, (int(w * scale), int(h * scale))).convert_alpha()
+    newImage = pygame.transform.smoothscale(image, (int(w * scale), int(h * scale))).convert_alpha()  # Cambio por smoothscale
     return newImage
 
 idle_animations = []
