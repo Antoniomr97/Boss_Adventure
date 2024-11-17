@@ -9,19 +9,26 @@ screen = pygame.display.set_mode((constants.WIDTH_SCREEN, constants.HEIGHT_SCREE
 pygame.display.set_caption("Boss Adventure")
 
 def scaleImages(image, scale):
-     w = image.get_width()
-     h = image.get_height()
-     newImage = pygame.transform.scale(image, size=(w * scale, h * scale))
-     return newImage
+    w = image.get_width()
+    h = image.get_height()
+    newImage = pygame.transform.scale(image, (int(w * scale), int(h * scale))).convert_alpha()
+    return newImage
+
+idle_animations = []
+
+for i in range(4):  # Suponiendo que tienes 4 imágenes para idle
+    img = pygame.image.load(f"assets/images/characters/player/idle/Idle{i + 1}.png").convert_alpha()
+    img = scaleImages(img, constants.SCALE_CHARACTER)
+    idle_animations.append(img)
 
 animations =[]
 
 for i in range(4):
-     img = pygame.image.load(f"assets//images//characters//player//walking//Walk{i +1}.png")
-     img = scaleImages(img, constants.SCALE_CHARACTER)
-     animations.append(img)
+    img = pygame.image.load(f"assets/images/characters/player/walking/Walk{i + 1}.png").convert_alpha()
+    img = scaleImages(img, constants.SCALE_CHARACTER)
+    animations.append(img)
 
-player = Player(50, 50, animations)
+player = Player(50, 50, animations, idle_animations)
 
 #Movements Player Vars
 move_up = False
@@ -61,7 +68,11 @@ while run:
 
     player.movement(delta_x, delta_y)
 
-    player.update()
+    # Detectar si el jugador se está moviendo
+    moving = move_up or move_down or move_left or move_right
+
+    # Actualizar la animación del jugador según su movimiento
+    player.update(moving)
 
     player.draw(screen)
 
