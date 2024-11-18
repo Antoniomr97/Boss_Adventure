@@ -1,6 +1,7 @@
 import pygame
 import constants
 from player import Player
+from weapon import Weapon
 
 pygame.init()
 
@@ -14,6 +15,10 @@ def scaleImages(image, scale):
     newImage = pygame.transform.smoothscale(image, (int(w * scale), int(h * scale))).convert_alpha()  # Cambio por smoothscale
     return newImage
 
+#Importar imagenes
+
+#Animación Idle Player
+
 idle_animations = []
 
 for i in range(4):  # Suponiendo que tienes 4 imágenes para idle
@@ -21,14 +26,26 @@ for i in range(4):  # Suponiendo que tienes 4 imágenes para idle
     img = scaleImages(img, constants.SCALE_CHARACTER)
     idle_animations.append(img)
 
-animations =[]
+#Animación Walk Player
+
+walkAnimation =[]
 
 for i in range(4):
     img = pygame.image.load(f"assets/images/characters/player/walking/Walk{i + 1}.png").convert_alpha()
     img = scaleImages(img, constants.SCALE_CHARACTER)
-    animations.append(img)
+    walkAnimation.append(img)
 
-player = Player(50, 50, animations, idle_animations)
+#Arma Billete
+
+BanknoteImage = pygame.image.load(f"assets/images/weapons/banknote/image/BankNote.png").convert_alpha()
+
+#Crear un jugador de la clase Player
+player = Player(50, 50, walkAnimation, idle_animations)
+
+#Crear Arma clase Weapon
+
+#Creamos el Billete
+banknote = Weapon(BanknoteImage)
 
 #Movements Player Vars
 move_up = False
@@ -43,7 +60,7 @@ run = True
 
 while run:
     
-    #A 60 FPS
+    #A los FPS marcados
     clock.tick(constants.FPS)
 
     screen.fill(constants.COLOR_BG)
@@ -64,7 +81,7 @@ while run:
     if move_down == True:
         delta_y = constants.SPEED_CHARACTER
 
-    #Move the player
+    # Move the player
 
     player.movement(delta_x, delta_y)
 
@@ -74,10 +91,18 @@ while run:
     # Actualizar la animación del jugador según su movimiento
     player.update(moving)
 
+    # Actualizar el estado del arma
+    banknote.update(player)
+
+    # Dibujar al jugador
     player.draw(screen)
 
+    # Dibujar el arma
+    banknote.draw(screen)
+
+
     for event in pygame.event.get():
-        #Comprobamos si ha clicado en la X para salir de la ventana
+        # Comprobamos si ha clicado en la X para salir de la ventana
         if event.type == pygame.QUIT:
             run = False
 
