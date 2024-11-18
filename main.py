@@ -34,6 +34,7 @@ for i in range(4):
     img = pygame.image.load(f"assets/images/characters/player/walking/Walk{i + 1}.png").convert_alpha()
     img = scaleImages(img, constants.SCALE_CHARACTER)
     walkAnimation.append(img)
+    
 
 #Arma Billete
 
