@@ -1,4 +1,5 @@
 import pygame
+import constants
 
 class Weapon():
     def __init__(self, image):
@@ -9,6 +10,8 @@ class Weapon():
 
     def update(self, player):
         self.shape.center = player.shape.center
+        self.shape.x = self.shape.x + (player.shape.width) / 2.5
 
     def draw(self, interface):
         interface.blit(self.image, self.shape)
+        # pygame.draw.rect(interface, constants.COLOR_WEAPON, self.shape, width=1)

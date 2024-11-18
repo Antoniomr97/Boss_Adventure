@@ -10,7 +10,7 @@ class Player:
         self.frame_index = 0
         self.update_time = pygame.time.get_ticks()
         self.image = self.current_animations[self.frame_index]
-        self.shape = pygame.Rect(0, 0, constants.WIDTH_CHARACTER, constants.HEIGHT_CHARACTER)
+        self.shape = self.image.get_rect()
         self.shape.center = (x, y)
 
     def movement(self, delta_x, delta_y):
