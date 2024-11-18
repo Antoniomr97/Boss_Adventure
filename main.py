@@ -37,7 +37,8 @@ for i in range(4):
 
 #Arma Billete
 
-BanknoteImage = pygame.image.load(f"assets/images/weapons/banknote/image/BankNote.png").convert_alpha()
+banknoteImage = pygame.image.load(f"assets/images/weapons/banknote/image/BankNote.png").convert_alpha()
+banknoteImage = scaleImages(banknoteImage, constants.SCALE_WEAPON)
 
 #Crear un jugador de la clase Player
 player = Player(50, 50, walkAnimation, idle_animations)
@@ -45,7 +46,7 @@ player = Player(50, 50, walkAnimation, idle_animations)
 #Crear Arma clase Weapon
 
 #Creamos el Billete
-banknote = Weapon(BanknoteImage)
+banknote = Weapon(banknoteImage)
 
 #Movements Player Vars
 move_up = False
