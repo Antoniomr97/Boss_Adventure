@@ -36,20 +36,31 @@ for i in range(4):
     walkAnimation.append(img)
     
 
-#Arma Billete
+# Arma Billete
 
 banknoteImage = pygame.image.load(f"assets/images/weapons/banknote/image/BankNote.png").convert_alpha()
 banknoteImage = scaleImages(banknoteImage, constants.SCALE_WEAPON)
 
-#Crear un jugador de la clase Player
+# Bullets
+
+bulletsImage = pygame.image.load(f"assets/images/weapons/banknote/image/BankNote.png").convert_alpha()
+bulletsImage = scaleImages(banknoteImage, constants.SCALE_BULLETS)
+
+# Crear un jugador de la clase Player
+
 player = Player(50, 50, walkAnimation, idle_animations)
 
-#Crear Arma clase Weapon
+# Crear Arma clase Weapon
 
-#Creamos el Billete
-banknote = Weapon(banknoteImage)
+# Creamos el Billete
 
-#Movements Player Vars
+banknote = Weapon(banknoteImage, bulletsImage)
+
+# Creamos grupo de Sprites
+
+groupBullets = pygame.sprite.Group()
+
+# Movements Player Vars
 move_up = False
 move_down = False
 move_left = False
@@ -94,13 +105,24 @@ while run:
     player.update(moving)
 
     # Actualizar el estado del arma
-    banknote.update(player)
+    bullet = banknote.update(player)
+
+    if bullet:
+         groupBullets.add(bullet)
+
+    for bullet in groupBullets:
+         bullet.update()
 
     # Dibujar al jugador
     player.draw(screen)
 
     # Dibujar el arma
     banknote.draw(screen)
+
+    # Dibujar balas
+
+    for bullet in groupBullets:
+         bullet.draw(screen)
 
 
     for event in pygame.event.get():
