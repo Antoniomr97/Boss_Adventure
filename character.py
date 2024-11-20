@@ -1,12 +1,12 @@
 import pygame
 import constants
 
-class Player:
-    def __init__(self, x, y, animations, idle_animations):
+class Character:
+    def __init__(self, x, y, moveAnimations, idleAnimations):
         self.flip = False
-        self.walking_animations = animations
-        self.idle_animations = idle_animations
-        self.current_animations = idle_animations
+        self.walking_animations = moveAnimations
+        self.idle_animations = idleAnimations
+        self.current_animations = idleAnimations
         self.frame_index = 0
         self.update_time = pygame.time.get_ticks()
         self.image = self.current_animations[self.frame_index]
@@ -22,7 +22,7 @@ class Player:
         self.shape.x += delta_x
         self.shape.y += delta_y
 
-    def update(self, moving):
+    def update(self, moving = False):
         # Cambiar entre animaciones
         if moving:
             self.current_animations = self.walking_animations

@@ -19,6 +19,10 @@ SCALE_BULLETS = 1
 BULLET_CD = 250
 SPEED_BULLET = 8
 
+# Enemies
+
+SCALE_ENEMIES = 0.60
+
 # Background
 COLOR_BG = (207, 207, 196)
 

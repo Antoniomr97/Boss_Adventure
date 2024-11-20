@@ -1,7 +1,29 @@
 import pygame
 import constants
-from player import Player
+from character import Character
 from weapon import Weapon
+import os
+
+# Funciones
+
+# Escalar Imagenes
+
+def scaleImages(image, scale):
+    w = image.get_width()
+    h = image.get_height()
+    newImage = pygame.transform.smoothscale(image, (int(w * scale), int(h * scale))).convert_alpha()  # Cambio por smoothscale
+    return newImage
+
+# Función contar elementos
+
+def countElements(directory):
+     return len(os.listdir(directory))
+     
+
+# Función listar nombres elementos
+
+def nameDirectorys(directory):
+     return os.listdir(directory)
 
 pygame.init()
 
@@ -9,11 +31,7 @@ screen = pygame.display.set_mode((constants.WIDTH_SCREEN, constants.HEIGHT_SCREE
 
 pygame.display.set_caption("Boss Adventure")
 
-def scaleImages(image, scale):
-    w = image.get_width()
-    h = image.get_height()
-    newImage = pygame.transform.smoothscale(image, (int(w * scale), int(h * scale))).convert_alpha()  # Cambio por smoothscale
-    return newImage
+
 
 #Importar imagenes
 
@@ -35,6 +53,23 @@ for i in range(4):
     img = scaleImages(img, constants.SCALE_CHARACTER)
     walkAnimation.append(img)
     
+# Enemigos
+
+enemiesDirectory = "assets//images//characters//enemies"
+enemiesTypes = nameDirectorys(enemiesDirectory)
+
+IdleEnemiesAnimations = []
+
+for eni in enemiesTypes:
+     tempList = []
+     ruteTemp = f"assets//images//characters//enemies//{eni}//idle"
+     animationsNum = countElements(ruteTemp)
+     for i in range(animationsNum):
+          imgEnemy = pygame.image.load(f"{ruteTemp}//{eni}Idle{i+1}.png").convert_alpha()
+          imgEnemy = scaleImages(imgEnemy, constants.SCALE_ENEMIES)
+          tempList.append(imgEnemy)
+     IdleEnemiesAnimations.append(tempList)
+
 
 # Arma Billete
 
@@ -48,7 +83,21 @@ bulletsImage = scaleImages(banknoteImage, constants.SCALE_BULLETS)
 
 # Crear un jugador de la clase Player
 
-player = Player(50, 50, walkAnimation, idle_animations)
+player = Character(50, 50, walkAnimation, idle_animations)
+
+# Crear Enemigos clase Character
+
+cerdito = Character(400, 300, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0])
+marmala = Character(200, 200, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1])
+toxica = Character(100, 200, IdleEnemiesAnimations[2], IdleEnemiesAnimations[2])
+
+# Crear lista enemigos
+EnemyList = []
+
+EnemyList.append(cerdito)
+EnemyList.append(marmala)
+EnemyList.append(toxica)
+
 
 # Crear Arma clase Weapon
 
@@ -104,6 +153,10 @@ while run:
     # Actualizar la animación del jugador según su movimiento
     player.update(moving)
 
+    # Actualizar la animación del enemigo según su movimiento
+    for eni in EnemyList:
+         eni.update()
+
     # Actualizar el estado del arma
     bullet = banknote.update(player)
 
@@ -115,6 +168,10 @@ while run:
 
     # Dibujar al jugador
     player.draw(screen)
+
+    # Dibujar al enemigo
+    for eni in EnemyList:
+         eni.draw(screen)
 
     # Dibujar el arma
     banknote.draw(screen)
