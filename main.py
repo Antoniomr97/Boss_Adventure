@@ -166,8 +166,7 @@ while run:
     for bullet in groupBullets:
          bullet.update()
 
-    # Dibujar al jugador
-    player.draw(screen)
+    
 
     # Dibujar al enemigo
     for eni in EnemyList:
@@ -175,6 +174,9 @@ while run:
 
     # Dibujar el arma
     banknote.draw(screen)
+
+    # Dibujar al jugador
+    player.draw(screen)
 
     # Dibujar balas
 
