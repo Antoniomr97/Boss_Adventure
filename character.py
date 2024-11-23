@@ -2,7 +2,9 @@ import pygame
 import constants
 
 class Character:
-    def __init__(self, x, y, moveAnimations, idleAnimations):
+    def __init__(self, x, y, moveAnimations, idleAnimations, life):
+        self.life = life
+        self.alive = True
         self.flip = False
         self.walking_animations = moveAnimations
         self.idle_animations = idleAnimations
@@ -23,6 +25,12 @@ class Character:
         self.shape.y += delta_y
 
     def update(self, moving = False):
+        # Comprobar si el personaje está vivo
+
+        if self.life <= 0:
+            self.life = 0
+            self.alive = False
+
         # Cambiar entre animaciones
         if moving:
             self.current_animations = self.walking_animations

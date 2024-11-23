@@ -1,6 +1,7 @@
 import pygame
 import constants
 import math
+import random
 
 class Weapon():
     def __init__(self, image, bulletImage):
@@ -75,13 +76,23 @@ class Bullet(pygame.sprite.Sprite):
         self.delta_x = math.cos(math.radians(self.angle))* constants.SPEED_BULLET
         self.delta_y = -math.sin(math.radians(self.angle))* constants.SPEED_BULLET
 
-    def update(self):
+    def update(self, enemyList):
         self.rect.x += self.delta_x
         self.rect.y += self.delta_y
 
         # comprobar si las balas salieron de pantalla
         if self.rect.right < 0 or self.rect.left > constants.WIDTH_SCREEN or self.rect.top > constants.HEIGHT_SCREEN:
             self.kill()
+
+        # Verificar si hay colisiones
+        for enemy in enemyList:
+            # Reducimos el collider para la percepcion del impacto
+            reduced_rect = enemy.shape.inflate(-100, -100)
+            if reduced_rect.colliderect(self.rect):
+                damage = 15 + random.randint(-7, 7)
+                enemy.life -= damage
+                self.kill()
+                break
 
     def draw(self, interface):
         interface.blit(self.image, (self.rect.centerx,

@@ -83,13 +83,13 @@ bulletsImage = scaleImages(banknoteImage, constants.SCALE_BULLETS)
 
 # Crear un jugador de la clase Player
 
-player = Character(50, 50, walkAnimation, idle_animations)
+player = Character(50, 50, walkAnimation, idle_animations, 100)
 
 # Crear Enemigos clase Character
 
-cerdito = Character(400, 300, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0])
-marmala = Character(200, 200, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1])
-toxica = Character(100, 200, IdleEnemiesAnimations[2], IdleEnemiesAnimations[2])
+cerdito = Character(400, 300, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0], 100)
+marmala = Character(200, 200, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 100)
+toxica = Character(100, 200, IdleEnemiesAnimations[2], IdleEnemiesAnimations[2], 100)
 
 # Crear lista enemigos
 EnemyList = []
@@ -164,7 +164,7 @@ while run:
          groupBullets.add(bullet)
 
     for bullet in groupBullets:
-         bullet.update()
+         bullet.update(EnemyList)
 
     
 

@@ -21,7 +21,7 @@ SPEED_BULLET = 8
 
 # Enemies
 
-SCALE_ENEMIES = 0.60
+SCALE_ENEMIES = 0.6
 
 # Background
 COLOR_BG = (207, 207, 196)
