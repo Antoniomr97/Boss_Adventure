@@ -2,6 +2,7 @@ import pygame
 import constants
 from character import Character
 from weapon import Weapon
+from texts import DamageText
 import os
 
 # Funciones
@@ -32,6 +33,10 @@ screen = pygame.display.set_mode((constants.WIDTH_SCREEN, constants.HEIGHT_SCREE
 pygame.display.set_caption("Boss Adventure")
 
 
+# Fuentes
+
+font = pygame.font.Font("assets/fonts/mago3.ttf", 25)
+
 
 #Importar imagenes
 
@@ -39,7 +44,7 @@ pygame.display.set_caption("Boss Adventure")
 
 idle_animations = []
 
-for i in range(4):  # Suponiendo que tienes 4 imágenes para idle
+for i in range(4):  
     img = pygame.image.load(f"assets/images/characters/player/idle/Idle{i + 1}.png").convert_alpha()
     img = scaleImages(img, constants.SCALE_CHARACTER)
     idle_animations.append(img)
@@ -107,7 +112,15 @@ banknote = Weapon(banknoteImage, bulletsImage)
 
 # Creamos grupo de Sprites
 
+groupDamageText = pygame.sprite.Group()
+
 groupBullets = pygame.sprite.Group()
+
+# Temporal y borrar
+
+# damageText = DamageText(100, 240, "25", font, constants.RED)
+
+# groupDamageText.add(damageText)
 
 # Movements Player Vars
 move_up = False
@@ -164,8 +177,14 @@ while run:
          groupBullets.add(bullet)
 
     for bullet in groupBullets:
-         bullet.update(EnemyList)
+         damage, damagePosition = bullet.update(EnemyList)
+         if damage:
+              damageText = DamageText(damagePosition.centerx, damagePosition.centery, str(damage), font, constants.RED)
+              groupDamageText.add(damageText)
 
+    # Actualizar el daño
+
+    groupDamageText.update()
     
 
     # Dibujar al enemigo
@@ -182,6 +201,10 @@ while run:
 
     for bullet in groupBullets:
          bullet.draw(screen)
+
+    # Dibujar textos
+
+    groupDamageText.draw(screen)
 
 
     for event in pygame.event.get():

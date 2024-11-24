@@ -25,6 +25,7 @@ SCALE_ENEMIES = 0.6
 
 # Background
 COLOR_BG = (207, 207, 196)
+RED = (203, 50, 52)
 
 # FPS
 FPS = 150

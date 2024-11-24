@@ -77,8 +77,12 @@ class Bullet(pygame.sprite.Sprite):
         self.delta_y = -math.sin(math.radians(self.angle))* constants.SPEED_BULLET
 
     def update(self, enemyList):
+        damage = 0
+        damagePosition = None
         self.rect.x += self.delta_x
         self.rect.y += self.delta_y
+        
+        
 
         # comprobar si las balas salieron de pantalla
         if self.rect.right < 0 or self.rect.left > constants.WIDTH_SCREEN or self.rect.top > constants.HEIGHT_SCREEN:
@@ -90,9 +94,11 @@ class Bullet(pygame.sprite.Sprite):
             reduced_rect = enemy.shape.inflate(-100, -100)
             if reduced_rect.colliderect(self.rect):
                 damage = 15 + random.randint(-7, 7)
+                damagePosition = enemy.shape
                 enemy.life -= damage
                 self.kill()
                 break
+        return damage, damagePosition
 
     def draw(self, interface):
         interface.blit(self.image, (self.rect.centerx,
