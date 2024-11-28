@@ -23,6 +23,10 @@ SPEED_BULLET = 8
 
 SCALE_ENEMIES = 0.6
 
+# Life
+
+SCALE_HEART = 0.35
+
 # Background
 COLOR_BG = (207, 207, 196)
 RED = (203, 50, 52)

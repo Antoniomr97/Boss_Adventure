@@ -38,9 +38,22 @@ pygame.display.set_caption("Boss Adventure")
 font = pygame.font.Font("assets/fonts/mago3.ttf", 25)
 
 
-#Importar imagenes
+# Importar imagenes
 
-#Animación Idle Player
+# Vida
+
+heartEmpty = pygame.image.load("assets\images\items\heart\HeartEmpty.png").convert_alpha()
+heartEmpty = scaleImages(heartEmpty, constants.SCALE_HEART)
+
+heartHalf = pygame.image.load("assets\images\items\heart\HeartHalf.png").convert_alpha()
+heartHalf = scaleImages(heartHalf, constants.SCALE_HEART)
+
+heartFull = pygame.image.load("assets\images\items\heart\HeartFull.png").convert_alpha()
+heartFull = scaleImages(heartFull, constants.SCALE_HEART)
+
+
+
+# Animación Idle Player
 
 idle_animations = []
 
@@ -49,7 +62,7 @@ for i in range(4):
     img = scaleImages(img, constants.SCALE_CHARACTER)
     idle_animations.append(img)
 
-#Animación Walk Player
+# Animación Walk Player
 
 walkAnimation =[]
 
@@ -85,6 +98,19 @@ banknoteImage = scaleImages(banknoteImage, constants.SCALE_WEAPON)
 
 bulletsImage = pygame.image.load(f"assets/images/weapons/banknote/image/BankNote.png").convert_alpha()
 bulletsImage = scaleImages(banknoteImage, constants.SCALE_BULLETS)
+
+def lifePlayer():
+    heartHalfDraw = False
+    for i in range(4):
+         if player.life >= ((i+1)*25):
+              screen.blit(heartFull, (5+i*50, 5))
+
+         elif player.life % 25 >= 0 and heartHalfDraw == False :
+              screen.blit(heartHalf, (5+i*50, 5))
+              heartHalfDraw = True
+         else:
+              screen.blit(heartEmpty, (5+i*50, 5))
+        
 
 # Crear un jugador de la clase Player
 
@@ -201,6 +227,10 @@ while run:
 
     for bullet in groupBullets:
          bullet.draw(screen)
+
+    # Dibujar los corazones
+
+    lifePlayer()
 
     # Dibujar textos
 
