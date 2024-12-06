@@ -3,6 +3,7 @@ import constants
 from character import Character
 from weapon import Weapon
 from texts import DamageText
+from items import Item
 import os
 
 # Funciones
@@ -99,6 +100,20 @@ banknoteImage = scaleImages(banknoteImage, constants.SCALE_WEAPON)
 bulletsImage = pygame.image.load(f"assets/images/weapons/banknote/image/BankNote.png").convert_alpha()
 bulletsImage = scaleImages(banknoteImage, constants.SCALE_BULLETS)
 
+# Cargar imagenes items
+
+redPotion = pygame.image.load("assets\images\items\potion\Potion.png")
+redPotion = scaleImages(redPotion, 0.34)
+
+coinImages = []
+imagesRoute = "assets\images\items\coin"
+numCoinImages = countElements(imagesRoute)
+
+for i in range(numCoinImages):
+     img = pygame.image.load(f"assets\images\items\coin\coin{i+1}.png")
+     img = scaleImages(img, 0.25)
+     coinImages.append(img)
+
 def lifePlayer():
     heartHalfDraw = False
     for i in range(4):
@@ -141,6 +156,15 @@ banknote = Weapon(banknoteImage, bulletsImage)
 groupDamageText = pygame.sprite.Group()
 
 groupBullets = pygame.sprite.Group()
+
+groupItems = pygame.sprite.Group()
+
+coin = Item(350, 25, 0, coinImages)
+
+potion = Item(380, 55, 1, [redPotion])
+
+groupItems.add(coin)
+groupItems.add(potion)
 
 # Temporal y borrar
 
@@ -211,6 +235,10 @@ while run:
     # Actualizar el daño
 
     groupDamageText.update()
+
+    # Actualizar items
+
+    groupItems.update()
     
 
     # Dibujar al enemigo
@@ -235,6 +263,10 @@ while run:
     # Dibujar textos
 
     groupDamageText.draw(screen)
+
+    # Dibujar items
+
+    groupItems.draw(screen)
 
 
     for event in pygame.event.get():
