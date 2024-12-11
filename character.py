@@ -3,6 +3,7 @@ import constants
 
 class Character:
     def __init__(self, x, y, moveAnimations, idleAnimations, life):
+        self.score = 0
         self.life = life
         self.alive = True
         self.flip = False

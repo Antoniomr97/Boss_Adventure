@@ -114,6 +114,10 @@ for i in range(numCoinImages):
      img = scaleImages(img, 0.25)
      coinImages.append(img)
 
+def drawText(text, font, color, x, y):
+     img = font.render(text, True, color)
+     screen.blit(img, (x,y))
+
 def lifePlayer():
     heartHalfDraw = False
     for i in range(4):
@@ -238,7 +242,7 @@ while run:
 
     # Actualizar items
 
-    groupItems.update()
+    groupItems.update(player)
     
 
     # Dibujar al enemigo
@@ -263,6 +267,7 @@ while run:
     # Dibujar textos
 
     groupDamageText.draw(screen)
+    drawText(f"Propina: {player.score}", font, (255,255,0), 900, 10)
 
     # Dibujar items
 
