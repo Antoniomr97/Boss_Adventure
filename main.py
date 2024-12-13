@@ -4,6 +4,7 @@ from character import Character
 from weapon import Weapon
 from texts import DamageText
 from items import Item
+from world import World
 import os
 
 # Funciones
@@ -100,10 +101,24 @@ banknoteImage = scaleImages(banknoteImage, constants.SCALE_WEAPON)
 bulletsImage = pygame.image.load(f"assets/images/weapons/banknote/image/BankNote.png").convert_alpha()
 bulletsImage = scaleImages(banknoteImage, constants.SCALE_BULLETS)
 
+# Cargar imagenes del mundo
+
+tileList = []
+for x in range(constants.TILE_TYPES):
+    tileImage = pygame.image.load(f"assets/images/tiles/tile({x}).png").convert_alpha()
+
+    # Recortar automáticamente para eliminar bordes innecesarios
+    tileRect = tileImage.get_bounding_rect()  # Encuentra el área no transparente
+    croppedImage = tileImage.subsurface(tileRect)  # Recorta la imagen
+
+    # Escalar la imagen recortada al tamaño del tile
+    scaledImage = pygame.transform.scale(croppedImage, (constants.TILE_SIZE, constants.TILE_SIZE))
+    tileList.append(scaledImage)
+
 # Cargar imagenes items
 
 redPotion = pygame.image.load("assets\images\items\potion\Potion.png")
-redPotion = scaleImages(redPotion, 0.34)
+redPotion = scaleImages(redPotion, 0.15)
 
 coinImages = []
 imagesRoute = "assets\images\items\coin"
@@ -111,7 +126,7 @@ numCoinImages = countElements(imagesRoute)
 
 for i in range(numCoinImages):
      img = pygame.image.load(f"assets\images\items\coin\coin{i+1}.png")
-     img = scaleImages(img, 0.25)
+     img = scaleImages(img, 0.10)
      coinImages.append(img)
 
 def drawText(text, font, color, x, y):
@@ -130,6 +145,25 @@ def lifePlayer():
          else:
               screen.blit(heartEmpty, (5+i*50, 5))
         
+worldData = [
+     [0,1,2,3,4,3, 2, 1, 4, 5],
+     [6,18,22,23,24,25, 26, 27, 19, 10],
+     [7,31,32,44,35,36, 37, 38, 30, 11],
+     [8,31,37,45,37,46, 47, 48, 30, 10],
+     [6,21,28,28,29,28, 29, 28, 20, 12],
+     [9,14,15,16,17,16, 15, 14, 16, 13]
+
+]
+
+world = World()
+world.processData(worldData, tileList)
+
+def drawGrid():
+     for x in range(30):
+          pygame.draw.line(screen, constants.WHITE, (x* constants.TILE_SIZE, 0), (x*constants.TILE_SIZE, constants.HEIGHT_SCREEN))
+          pygame.draw.line(screen, constants.WHITE, (0 ,x* constants.TILE_SIZE), (constants.WIDTH_SCREEN ,x*constants.TILE_SIZE ))
+     
+
 
 # Crear un jugador de la clase Player
 
@@ -194,6 +228,8 @@ while run:
 
     screen.fill(constants.COLOR_BG)
 
+    drawGrid()
+
     #Calculate player movement
     delta_x = 0
     delta_y = 0
@@ -244,6 +280,9 @@ while run:
 
     groupItems.update(player)
     
+    # Dibujar Mundo
+
+    world.draw(screen)
 
     # Dibujar al enemigo
     for eni in EnemyList:
