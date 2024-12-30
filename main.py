@@ -6,6 +6,7 @@ from texts import DamageText
 from items import Item
 from world import World
 import os
+import csv
 
 # Funciones
 
@@ -105,7 +106,7 @@ bulletsImage = scaleImages(banknoteImage, constants.SCALE_BULLETS)
 
 tileList = []
 for x in range(constants.TILE_TYPES):
-    tileImage = pygame.image.load(f"assets/images/tiles/tile({x}).png").convert_alpha()
+    tileImage = pygame.image.load(f"assets/images/tiles/tile_{x + 1}.png").convert_alpha()
 
     # Recortar automáticamente para eliminar bordes innecesarios
     tileRect = tileImage.get_bounding_rect()  # Encuentra el área no transparente
@@ -145,15 +146,21 @@ def lifePlayer():
          else:
               screen.blit(heartEmpty, (5+i*50, 5))
         
-worldData = [
-     [0,1,2,3,4,3, 2, 1, 4, 5],
-     [6,18,22,23,24,25, 26, 27, 19, 10],
-     [7,31,32,44,35,36, 37, 38, 30, 11],
-     [8,31,37,45,37,46, 47, 48, 30, 10],
-     [6,21,28,28,29,28, 29, 28, 20, 12],
-     [9,14,15,16,17,16, 15, 14, 16, 13]
+worldData = []
 
-]
+
+
+for rows in range(constants.ROWS):
+     rows = [34] * constants.COLUMS
+     worldData.append(rows)
+
+# Cargar el nivel
+
+with open("assets/levels/level1.csv", newline="") as csvfile:
+     reader = csv.reader(csvfile, delimiter=",")
+     for x, row in enumerate(reader):
+          for y, column in enumerate(row):
+               worldData[x][y] = int(column)
 
 world = World()
 world.processData(worldData, tileList)

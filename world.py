@@ -9,6 +9,9 @@ class World():
         self.levelLength = len(data)
         for y, row in enumerate(data):
             for x, tile in enumerate(row):
+                if tile < 0 or tile >= len(tileList):
+                    print(f"Índice fuera de rango: {tile} en posición ({x}, {y})")
+                    continue
                 image = tileList[tile]
                 imageRect = image.get_rect()
                 # Coloca las imágenes para llenar todo el tile

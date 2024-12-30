@@ -4,7 +4,9 @@ HEIGHT_SCREEN = 768
 
 # Medidas tile
 TILE_SIZE = 50
-TILE_TYPES = 56
+TILE_TYPES = 100
+ROWS = 20
+COLUMS = 30
 
 
 # Medidas del jugador
