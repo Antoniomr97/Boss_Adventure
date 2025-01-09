@@ -16,9 +16,25 @@ class World():
                 imageRect = image.get_rect()
                 # Coloca las imágenes para llenar todo el tile
                 imageRect.topleft = (x * constants.TILE_SIZE, y * constants.TILE_SIZE)
-                tileData = [image, imageRect]
+                # Añade las coordenadas iniciales x, y al tileData
+                tileData = [image, imageRect, imageRect.centerx, imageRect.centery]
                 self.mapTiles.append(tileData)
+
+    def update(self, screenPosition):
+        for tile in self.mapTiles:
+            if len(tile) < 4:
+                print(f"Advertencia: tile incompleto encontrado: {tile}")
+                continue  # Saltar tiles con datos incompletos
+            # Actualiza las posiciones x, y del tile con el desplazamiento
+            tile[2] += screenPosition[0]
+            tile[3] += screenPosition[1]
+            # Ajusta la posición del rectángulo según las nuevas coordenadas
+            tile[1].center = (tile[2], tile[3])
 
     def draw(self, surface):
         for tile in self.mapTiles:
+            if len(tile) < 2:
+                print(f"Advertencia: tile inválido encontrado durante el dibujo: {tile}")
+                continue
+            # Dibuja la superficie en las coordenadas del rectángulo
             surface.blit(tile[0], tile[1])

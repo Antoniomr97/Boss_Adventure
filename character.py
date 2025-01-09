@@ -2,7 +2,7 @@ import pygame
 import constants
 
 class Character:
-    def __init__(self, x, y, moveAnimations, idleAnimations, life):
+    def __init__(self, x, y, moveAnimations, idleAnimations, life, type):
         self.score = 0
         self.life = life
         self.alive = True
@@ -15,8 +15,11 @@ class Character:
         self.image = self.current_animations[self.frame_index]
         self.shape = self.image.get_rect()
         self.shape.center = (x, y)
+        self.type = type
+
 
     def movement(self, delta_x, delta_y):
+        screenPosition = [0, 0]
         if delta_x < 0:
             self.flip = True
         if delta_x > 0:
@@ -24,6 +27,18 @@ class Character:
 
         self.shape.x += delta_x
         self.shape.y += delta_y
+
+        # Lógica solo aplica al jugador y no enemigos
+        if self.type == 1:
+            # actualizar la pantalla basado en la posicion del jugador
+            # mover la camara izquierda o derecha
+            if self.shape.right > (constants.WIDTH_SCREEN - constants.SCREEN_LIMIT):
+                screenPosition[0] = (constants.WIDTH_SCREEN - constants.SCREEN_LIMIT) - self.shape.right
+                self.shape.right = constants.WIDTH_SCREEN - constants.SCREEN_LIMIT
+            if self.shape.left < constants.SCREEN_LIMIT:
+                screenPosition[0] = constants.SCREEN_LIMIT - self.shape.left
+                self.shape.left = constants.SCREEN_LIMIT
+            return screenPosition
 
     def update(self, moving = False):
         # Comprobar si el personaje está vivo

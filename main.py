@@ -35,6 +35,10 @@ screen = pygame.display.set_mode((constants.WIDTH_SCREEN, constants.HEIGHT_SCREE
 
 pygame.display.set_caption("Boss Adventure")
 
+# variables
+
+screenPosition = [0, 0]
+
 
 # Fuentes
 
@@ -174,13 +178,13 @@ def drawGrid():
 
 # Crear un jugador de la clase Player
 
-player = Character(50, 50, walkAnimation, idle_animations, 100)
+player = Character(50, 50, walkAnimation, idle_animations, 100, 1)
 
 # Crear Enemigos clase Character
 
-cerdito = Character(400, 300, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0], 100)
-marmala = Character(200, 200, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 100)
-toxica = Character(100, 200, IdleEnemiesAnimations[2], IdleEnemiesAnimations[2], 100)
+cerdito = Character(400, 300, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0], 100, 2)
+marmala = Character(200, 200, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 100, 2)
+toxica = Character(100, 200, IdleEnemiesAnimations[2], IdleEnemiesAnimations[2], 100, 2)
 
 # Crear lista enemigos
 EnemyList = []
@@ -255,10 +259,14 @@ while run:
 
     # Move the player
 
-    player.movement(delta_x, delta_y)
+    screenPosition = player.movement(delta_x, delta_y)
 
     # Detectar si el jugador se está moviendo
     moving = move_up or move_down or move_left or move_right
+
+    # Actualizar mapa
+
+    world.update(screenPosition)
 
     # Actualizar la animación del jugador según su movimiento
     player.update(moving)
