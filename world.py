@@ -1,8 +1,10 @@
 import constants
 
+obstacles = [ 0 , 1 , 2 , 3 , 4 , 5 , 10 , 15 , 20 , 25 , 30 , 35 , 41 , 42 , 43 , 44 ,  45 , 50 , 55 , 66 , 67 , 36 , 37 ]
 class World():
     def __init__(self):
         self.mapTiles = []
+        self.obstaclesTiles = []
 
     def processData(self, data, tileList):
         self.mapTiles = []  # Reiniciar tiles si es necesario
@@ -18,7 +20,11 @@ class World():
                 imageRect.topleft = (x * constants.TILE_SIZE, y * constants.TILE_SIZE)
                 # Añade las coordenadas iniciales x, y al tileData
                 tileData = [image, imageRect, imageRect.centerx, imageRect.centery]
+                if tile in obstacles:
+                    self.obstaclesTiles.append(tileData)
                 self.mapTiles.append(tileData)
+                
+
 
     def update(self, screenPosition):
         for tile in self.mapTiles:

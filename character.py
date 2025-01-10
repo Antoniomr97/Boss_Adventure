@@ -18,7 +18,7 @@ class Character:
         self.type = type
 
 
-    def movement(self, delta_x, delta_y):
+    def movement(self, delta_x, delta_y, obstaclesTiles):
         screenPosition = [0, 0]
         if delta_x < 0:
             self.flip = True
@@ -26,7 +26,21 @@ class Character:
             self.flip = False
 
         self.shape.x += delta_x
+        for obstacle in obstaclesTiles:
+            if obstacle[1].colliderect(self.shape):
+                if delta_x > 0:
+                    self.shape.right = obstacle[1].left
+                if delta_x < 0:
+                    self.shape.left = obstacle[1].right
+
         self.shape.y += delta_y
+        for obstacle in obstaclesTiles:
+            # chequeo de colision
+            if obstacle[1].colliderect(self.shape):
+                if delta_y > 0:
+                    self.shape.bottom = obstacle[1].top
+                if delta_y < 0:
+                    self.shape.top = obstacle[1].bottom
 
         # Lógica solo aplica al jugador y no enemigos
         if self.type == 1:

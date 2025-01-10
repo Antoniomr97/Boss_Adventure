@@ -38,11 +38,13 @@ pygame.display.set_caption("Boss Adventure")
 # variables
 
 screenPosition = [0, 0]
+level = 1
 
 
 # Fuentes
 
 font = pygame.font.Font("assets/fonts/mago3.ttf", 25)
+largeFont = pygame.font.Font("assets/fonts/mago3.ttf", 32)
 
 
 # Importar imagenes
@@ -182,14 +184,18 @@ player = Character(100, 800, walkAnimation, idle_animations, 100, 1)
 
 # Crear Enemigos clase Character
 
-cerdito = Character(400, 300, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0], 100, 2)
-marmala = Character(200, 200, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 100, 2)
-toxica = Character(100, 200, IdleEnemiesAnimations[2], IdleEnemiesAnimations[2], 100, 2)
+cerdito = Character(1400, 730, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0], 200, 2)
+marmala = Character(930, 750, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
+marmala1 = Character(945, 730, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
+marmala2 = Character(960, 750, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
+toxica = Character(100, 500, IdleEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
 
 # Crear lista enemigos
 EnemyList = []
 
 EnemyList.append(cerdito)
+EnemyList.append(marmala1)
+EnemyList.append(marmala2)
 EnemyList.append(marmala)
 EnemyList.append(toxica)
 
@@ -208,12 +214,18 @@ groupBullets = pygame.sprite.Group()
 
 groupItems = pygame.sprite.Group()
 
-coin = Item(350, 25, 0, coinImages)
+coin = Item(780, 186, 0, coinImages)
+coin1 = Item(1440, 70, 0, coinImages)
+coin2 = Item(1000, 500, 0, coinImages)
 
-potion = Item(380, 55, 1, [redPotion])
+potion = Item(780, 55, 1, [redPotion])
+potion1 = Item(1024, 335, 1, [redPotion])
 
 groupItems.add(coin)
+groupItems.add(coin1)
+groupItems.add(coin2)
 groupItems.add(potion)
+groupItems.add(potion1)
 
 # Temporal y borrar
 
@@ -259,7 +271,7 @@ while run:
 
     # Move the player
 
-    screenPosition = player.movement(delta_x, delta_y)
+    screenPosition = player.movement(delta_x, delta_y, world.obstaclesTiles)
 
     # Detectar si el jugador se está moviendo
     moving = move_up or move_down or move_left or move_right
@@ -319,14 +331,19 @@ while run:
 
     lifePlayer()
 
-    # Dibujar textos
-
-    groupDamageText.draw(screen)
-    drawText(f"Propina: {player.score}", font, (255,255,0), 900, 10)
-
     # Dibujar items
 
     groupItems.draw(screen)
+
+    # Dibujar textos
+
+    groupDamageText.draw(screen)
+    drawText(f"Propina: {player.score}", font, (255,255,0), 900, 20)
+
+    # Level
+    drawText(f"Evil Club", largeFont, constants.WHITE, constants.WIDTH_SCREEN/ 2, 20)
+
+    
 
 
     for event in pygame.event.get():
