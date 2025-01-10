@@ -66,16 +66,26 @@ class Character:
 
 
     def enemies(self, player, obstaclesTiles, screenPosition, EnemyList):
+        clippedLine = ()
         eneDX = 0
         eneDY = 0
 
         self.shape.x += screenPosition[0]
         self.shape.y += screenPosition[1]
 
+        # Crear linea de vision
+        lineOfSight = ((self.shape.centerx, self.shape.centery),
+                        (player.shape.centerx, player.shape.centery))
+        
+        # Comprobar obstaculos
+        for obs in obstaclesTiles:
+            if obs[1].clipline(lineOfSight):
+                clippedLine = obs[1].clipline(lineOfSight)
+
         distance = math.sqrt(((self.shape.centerx - player.shape.centerx) ** 2) + 
                              ((self.shape.centery - player.shape.centery) ** 2 ))
         
-        if distance < constants.RANGE:
+        if not clippedLine and distance < constants.RANGE:
             if self.shape.centerx > player.shape.centerx:
                 eneDX = -(constants.SPEED_ENEMIES)
             if self.shape.centerx < player.shape.centerx:
