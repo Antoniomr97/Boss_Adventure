@@ -97,6 +97,18 @@ for eni in enemiesTypes:
           tempList.append(imgEnemy)
      IdleEnemiesAnimations.append(tempList)
 
+WalkEnemiesAnimations = []
+
+for eni in enemiesTypes:
+     tempList = []
+     ruteTemp = f"assets//images//characters//enemies//{eni}//walking"
+     animationsNum = countElements(ruteTemp)
+     for i in range(animationsNum):
+          imgEnemy = pygame.image.load(f"{ruteTemp}//{eni}Walking{i+1}.png").convert_alpha()
+          imgEnemy = scaleImages(imgEnemy, constants.SCALE_ENEMIES)
+          tempList.append(imgEnemy)
+     WalkEnemiesAnimations.append(tempList)
+
 
 # Arma Billete
 
@@ -184,11 +196,11 @@ player = Character(100, 800, walkAnimation, idle_animations, 100, 1)
 
 # Crear Enemigos clase Character
 
-cerdito = Character(1350, 700, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0], 200, 2)
-marmala = Character(930, 750, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
-marmala1 = Character(945, 730, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
-marmala2 = Character(960, 750, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
-toxica = Character(100, 500, IdleEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
+cerdito = Character(1350, 700, WalkEnemiesAnimations[0], IdleEnemiesAnimations[0], 200, 2)
+marmala = Character(930, 750, WalkEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
+marmala1 = Character(945, 730, WalkEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
+marmala2 = Character(960, 750, WalkEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
+toxica = Character(100, 500, WalkEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
 
 # Crear lista enemigos
 EnemyList = []
@@ -313,7 +325,7 @@ while run:
 
     # Dibujar al enemigo
     for eni in EnemyList:
-         eni.enemies(player ,world.obstaclesTiles, screenPosition)
+         eni.enemies(player ,world.obstaclesTiles, screenPosition, EnemyList)
          eni.draw(screen)
 
     # Dibujar el arma

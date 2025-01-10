@@ -1,6 +1,7 @@
 import pygame
 import constants
 import math
+import random
 
 class Character:
     def __init__(self, x, y, moveAnimations, idleAnimations, life, type):
@@ -64,7 +65,7 @@ class Character:
             return screenPosition
 
 
-    def enemies(self, player, obstaclesTiles, screenPosition):
+    def enemies(self, player, obstaclesTiles, screenPosition, EnemyList):
         eneDX = 0
         eneDY = 0
 
@@ -85,9 +86,14 @@ class Character:
             if self.shape.centery < player.shape.centery:
                 eneDY = (constants.SPEED_ENEMIES)
 
+            moving = True
+
+        else:
+            moving = False
         
 
         self.movement(eneDX, eneDY, obstaclesTiles)
+        self.update(moving)
 
 
 
