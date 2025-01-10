@@ -30,6 +30,8 @@ SPEED_BULLET = 8
 # Enemies
 
 SCALE_ENEMIES = 0.35
+SPEED_ENEMIES = 1
+RANGE = 300
 
 # Life
 

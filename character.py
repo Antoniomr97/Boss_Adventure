@@ -1,5 +1,6 @@
 import pygame
 import constants
+import math
 
 class Character:
     def __init__(self, x, y, moveAnimations, idleAnimations, life, type):
@@ -63,9 +64,32 @@ class Character:
             return screenPosition
 
 
-    def enemies(self, screenPosition):
+    def enemies(self, player, obstaclesTiles, screenPosition):
+        eneDX = 0
+        eneDY = 0
+
         self.shape.x += screenPosition[0]
         self.shape.y += screenPosition[1]
+
+        distance = math.sqrt(((self.shape.centerx - player.shape.centerx) ** 2) + 
+                             ((self.shape.centery - player.shape.centery) ** 2 ))
+        
+        if distance < constants.RANGE:
+            if self.shape.centerx > player.shape.centerx:
+                eneDX = -(constants.SPEED_ENEMIES)
+            if self.shape.centerx < player.shape.centerx:
+                eneDX = (constants.SPEED_ENEMIES)
+
+            if self.shape.centery > player.shape.centery:
+                eneDY = -(constants.SPEED_ENEMIES)
+            if self.shape.centery < player.shape.centery:
+                eneDY = (constants.SPEED_ENEMIES)
+
+        
+
+        self.movement(eneDX, eneDY, obstaclesTiles)
+
+
 
     def update(self, moving = False):
         # Comprobar si el personaje está vivo

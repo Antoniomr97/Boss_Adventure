@@ -184,7 +184,7 @@ player = Character(100, 800, walkAnimation, idle_animations, 100, 1)
 
 # Crear Enemigos clase Character
 
-cerdito = Character(1400, 730, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0], 200, 2)
+cerdito = Character(1350, 700, IdleEnemiesAnimations[0], IdleEnemiesAnimations[0], 200, 2)
 marmala = Character(930, 750, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
 marmala1 = Character(945, 730, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
 marmala2 = Character(960, 750, IdleEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
@@ -313,7 +313,7 @@ while run:
 
     # Dibujar al enemigo
     for eni in EnemyList:
-         eni.enemies(screenPosition)
+         eni.enemies(player ,world.obstaclesTiles, screenPosition)
          eni.draw(screen)
 
     # Dibujar el arma
