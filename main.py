@@ -38,7 +38,6 @@ pygame.display.set_caption("Boss Adventure")
 # variables
 
 screenPosition = [0, 0]
-level = 1
 
 
 # Fuentes
@@ -154,11 +153,11 @@ def drawText(text, font, color, x, y):
 
 def lifePlayer():
     heartHalfDraw = False
-    for i in range(4):
-         if player.life >= ((i+1)*25):
+    for i in range(5):
+         if player.life >= ((i+1)*20):
               screen.blit(heartFull, (5+i*50, 5))
 
-         elif player.life > (i * 25) and heartHalfDraw == False :
+         elif player.life > (i * 20) and heartHalfDraw == False :
               screen.blit(heartHalf, (5+i*50, 5))
               heartHalfDraw = True
          else:

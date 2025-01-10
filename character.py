@@ -1,7 +1,6 @@
 import pygame
 import constants
 import math
-import random
 
 class Character:
     def __init__(self, x, y, moveAnimations, idleAnimations, life, type):
@@ -18,6 +17,8 @@ class Character:
         self.shape = self.image.get_rect()
         self.shape.center = (x, y)
         self.type = type
+        self.hit = False
+        self.lastHit = pygame.time.get_ticks()
 
 
     def movement(self, delta_x, delta_y, obstaclesTiles):
@@ -106,9 +107,10 @@ class Character:
         self.update(moving)
 
         # Atacar al jugador
-        if distance < constants.ATTACK_RANGE:
+        if distance < constants.ATTACK_RANGE and player.hit == False:
             player.life -= 10
-
+            player.hit = True
+            player.lastHit = pygame.time.get_ticks()
 
 
     def update(self, moving = False):
@@ -123,6 +125,13 @@ class Character:
             self.current_animations = self.walking_animations
         else:
             self.current_animations = self.idle_animations
+
+        # Timer para poder volver a recibir daño
+        hitCD = 500
+        if self.type == 1:
+            if self.hit == True:
+                if pygame.time.get_ticks() - self.lastHit > hitCD:
+                    self.hit = False
 
         # Control de la animación
         cooldown_animation = 200
