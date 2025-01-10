@@ -38,7 +38,20 @@ class Character:
             if self.shape.left < constants.SCREEN_LIMIT:
                 screenPosition[0] = constants.SCREEN_LIMIT - self.shape.left
                 self.shape.left = constants.SCREEN_LIMIT
+        
+            # mover la camara arriba y abajo
+            if self.shape.bottom > (constants.HEIGHT_SCREEN - constants.SCREEN_LIMIT):
+                screenPosition[1] = (constants.HEIGHT_SCREEN - constants.SCREEN_LIMIT) - self.shape.bottom
+                self.shape.bottom = constants.HEIGHT_SCREEN - constants.SCREEN_LIMIT
+            if self.shape.top < constants.SCREEN_LIMIT:
+                screenPosition[1] = constants.SCREEN_LIMIT - self.shape.top
+                self.shape.top = constants.SCREEN_LIMIT
             return screenPosition
+
+
+    def enemies(self, screenPosition):
+        self.shape.x += screenPosition[0]
+        self.shape.y += screenPosition[1]
 
     def update(self, moving = False):
         # Comprobar si el personaje está vivo

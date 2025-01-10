@@ -178,7 +178,7 @@ def drawGrid():
 
 # Crear un jugador de la clase Player
 
-player = Character(50, 50, walkAnimation, idle_animations, 100, 1)
+player = Character(100, 800, walkAnimation, idle_animations, 100, 1)
 
 # Crear Enemigos clase Character
 
@@ -289,11 +289,11 @@ while run:
 
     # Actualizar el daño
 
-    groupDamageText.update()
+    groupDamageText.update(screenPosition)
 
     # Actualizar items
 
-    groupItems.update(player)
+    groupItems.update(screenPosition, player)
     
     # Dibujar Mundo
 
@@ -301,6 +301,7 @@ while run:
 
     # Dibujar al enemigo
     for eni in EnemyList:
+         eni.enemies(screenPosition)
          eni.draw(screen)
 
     # Dibujar el arma

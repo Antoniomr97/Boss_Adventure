@@ -8,7 +8,10 @@ class DamageText(pygame.sprite.Sprite):
         self.rect.center =(x, y)
         self.contador = 0
 
-    def update(self):
+    def update(self, screenPosition):
+        self.rect.x += screenPosition[0]
+        self.rect.y += screenPosition[1]
+
         self.rect.y -= 2
         self.contador += 1
         if self.contador > 50:
