@@ -105,6 +105,10 @@ class Character:
         self.movement(eneDX, eneDY, obstaclesTiles)
         self.update(moving)
 
+        # Atacar al jugador
+        if distance < constants.ATTACK_RANGE:
+            player.life -= 10
+
 
 
     def update(self, moving = False):

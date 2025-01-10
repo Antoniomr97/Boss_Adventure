@@ -158,7 +158,7 @@ def lifePlayer():
          if player.life >= ((i+1)*25):
               screen.blit(heartFull, (5+i*50, 5))
 
-         elif player.life % 25 >= 0 and heartHalfDraw == False :
+         elif player.life > (i * 25) and heartHalfDraw == False :
               screen.blit(heartHalf, (5+i*50, 5))
               heartHalfDraw = True
          else:
