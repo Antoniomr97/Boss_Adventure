@@ -76,7 +76,7 @@ class Bullet(pygame.sprite.Sprite):
         self.delta_x = math.cos(math.radians(self.angle))* constants.SPEED_BULLET
         self.delta_y = -math.sin(math.radians(self.angle))* constants.SPEED_BULLET
 
-    def update(self, enemyList):
+    def update(self, enemyList, obstaclesTiles):
         damage = 0
         damagePosition = None
         self.rect.x += self.delta_x
@@ -96,6 +96,12 @@ class Bullet(pygame.sprite.Sprite):
                 damage = 15 + random.randint(-7, 7)
                 damagePosition = enemy.shape
                 enemy.life -= damage
+                self.kill()
+                break
+
+        # Verificar si hay colisiones con el entorno
+        for obs in obstaclesTiles:
+            if obs[1].colliderect(self.rect):
                 self.kill()
                 break
         return damage, damagePosition

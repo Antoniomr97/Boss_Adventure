@@ -42,6 +42,7 @@ SCALE_HEART = 0.35
 COLOR_BG = (0, 0, 30)
 RED = (203, 50, 52)
 WHITE = (240, 240, 240)
+DARK_RED = (139, 0, 0)
 
 # FPS
 FPS = 150

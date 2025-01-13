@@ -44,6 +44,9 @@ screenPosition = [0, 0]
 
 font = pygame.font.Font("assets/fonts/mago3.ttf", 25)
 largeFont = pygame.font.Font("assets/fonts/mago3.ttf", 32)
+fontGameOver = pygame.font.Font("assets/fonts/mago3.ttf", 74)
+
+gameOverText = fontGameOver.render("MILEURISTA", True, constants.WHITE)
 
 
 # Importar imagenes
@@ -264,59 +267,60 @@ while run:
 
     drawGrid()
 
-    #Calculate player movement
-    delta_x = 0
-    delta_y = 0
+    if player.alive:
+          #Calculate player movement
+          delta_x = 0
+          delta_y = 0
 
-    if move_right == True:
-        delta_x = constants.SPEED_CHARACTER
+          if move_right == True:
+               delta_x = constants.SPEED_CHARACTER
 
-    if move_left == True:
-        delta_x = -constants.SPEED_CHARACTER
+          if move_left == True:
+               delta_x = -constants.SPEED_CHARACTER
 
-    if move_up == True:
-        delta_y = -constants.SPEED_CHARACTER
+          if move_up == True:
+               delta_y = -constants.SPEED_CHARACTER
 
-    if move_down == True:
-        delta_y = constants.SPEED_CHARACTER
+          if move_down == True:
+               delta_y = constants.SPEED_CHARACTER
 
-    # Move the player
+          # Move the player
 
-    screenPosition = player.movement(delta_x, delta_y, world.obstaclesTiles)
+          screenPosition = player.movement(delta_x, delta_y, world.obstaclesTiles)
 
-    # Detectar si el jugador se está moviendo
-    moving = move_up or move_down or move_left or move_right
+          # Detectar si el jugador se está moviendo
+          moving = move_up or move_down or move_left or move_right
 
-    # Actualizar mapa
+          # Actualizar mapa
 
-    world.update(screenPosition)
+          world.update(screenPosition)
 
-    # Actualizar la animación del jugador según su movimiento
-    player.update(moving)
+          # Actualizar la animación del jugador según su movimiento
+          player.update(moving)
 
-    # Actualizar la animación del enemigo según su movimiento
-    for eni in EnemyList:
-         eni.update()
+          # Actualizar la animación del enemigo según su movimiento
+          for eni in EnemyList:
+               eni.update()
 
-    # Actualizar el estado del arma
-    bullet = banknote.update(player)
+          # Actualizar el estado del arma
+          bullet = banknote.update(player)
 
-    if bullet:
-         groupBullets.add(bullet)
+          if bullet:
+               groupBullets.add(bullet)
 
-    for bullet in groupBullets:
-         damage, damagePosition = bullet.update(EnemyList)
-         if damage:
-              damageText = DamageText(damagePosition.centerx, damagePosition.centery, str(damage), font, constants.RED)
-              groupDamageText.add(damageText)
+          for bullet in groupBullets:
+               damage, damagePosition = bullet.update(EnemyList, world.obstaclesTiles)
+               if damage:
+                    damageText = DamageText(damagePosition.centerx, damagePosition.centery, str(damage), font, constants.RED)
+                    groupDamageText.add(damageText)
 
-    # Actualizar el daño
+          # Actualizar el daño
 
-    groupDamageText.update(screenPosition)
+          groupDamageText.update(screenPosition)
 
-    # Actualizar items
+          # Actualizar items
 
-    groupItems.update(screenPosition, player)
+          groupItems.update(screenPosition, player)
     
     # Dibujar Mundo
 
@@ -324,8 +328,11 @@ while run:
 
     # Dibujar al enemigo
     for eni in EnemyList:
-         eni.enemies(player ,world.obstaclesTiles, screenPosition, EnemyList)
-         eni.draw(screen)
+         if eni.life == 0:
+              EnemyList.remove(eni)
+         if eni.life > 0:
+               eni.enemies(player ,world.obstaclesTiles, screenPosition, EnemyList)
+               eni.draw(screen)
 
     # Dibujar el arma
     banknote.draw(screen)
@@ -349,13 +356,17 @@ while run:
     # Dibujar textos
 
     groupDamageText.draw(screen)
-    drawText(f"Propina: {player.score}", font, (255,255,0), 900, 20)
+    drawText(f"Tip: {player.score}", font, (255,255,0), 900, 20)
 
     # Level
     drawText(f"Evil Club", largeFont, constants.WHITE, constants.WIDTH_SCREEN/ 2, 20)
 
     
-
+    if player.alive == False:
+         screen.fill(constants.DARK_RED)
+         textRect = gameOverText.get_rect(center=(constants.WIDTH_SCREEN / 2,
+                                                  constants.HEIGHT_SCREEN / 2))
+         screen.blit(gameOverText, textRect)
 
     for event in pygame.event.get():
         # Comprobamos si ha clicado en la X para salir de la ventana
