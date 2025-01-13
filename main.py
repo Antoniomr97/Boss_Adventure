@@ -51,6 +51,7 @@ fontGameOver = pygame.font.Font("assets/fonts/mago3.ttf", 100)
 
 gameOverText = fontGameOver.render("Mileurista", True, constants.WHITE)
 # textRestartButton = fontRestart.render("Restart", True, constants.BLACK)
+winText = fontGameOver.render("The Boss Wins", True, constants.WHITE)
 
 
 # Importar imagenes
@@ -225,20 +226,40 @@ player = Character(100, 800, walkAnimation, idle_animations, 100, 1)
 
 # Crear Enemigos clase Character
 
-cerdito = Character(1350, 700, WalkEnemiesAnimations[0], IdleEnemiesAnimations[0], 200, 2)
+cerdito = Character(1350, 700, WalkEnemiesAnimations[0], IdleEnemiesAnimations[0], 150, 2)
+cerdito1 = Character(1250, 700, WalkEnemiesAnimations[0], IdleEnemiesAnimations[0], 150, 2)
+cerdito2 = Character(1350, 500, WalkEnemiesAnimations[0], IdleEnemiesAnimations[0], 150, 2)
+cerdito3 = Character(1250, 500, WalkEnemiesAnimations[0], IdleEnemiesAnimations[0], 150, 2)
 marmala = Character(930, 750, WalkEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
 marmala1 = Character(945, 730, WalkEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
 marmala2 = Character(960, 750, WalkEnemiesAnimations[1], IdleEnemiesAnimations[1], 130, 2)
 toxica = Character(100, 500, WalkEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
+toxica1 = Character(200, 480, WalkEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
+toxica2 = Character(150, 500, WalkEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
+toxica3 = Character(170, 470, WalkEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
+toxica4 = Character(120, 500, WalkEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
+toxica5 = Character(250, 500, WalkEnemiesAnimations[2], IdleEnemiesAnimations[2], 50, 2)
+cabezon = Character(700, 150, WalkEnemiesAnimations[3], IdleEnemiesAnimations[3], 250, 2)
 
 # Crear lista enemigos
 EnemyList = []
 
 EnemyList.append(cerdito)
+EnemyList.append(cerdito1)
+EnemyList.append(cerdito2)
+EnemyList.append(cerdito3)
 EnemyList.append(marmala1)
 EnemyList.append(marmala2)
 EnemyList.append(marmala)
 EnemyList.append(toxica)
+EnemyList.append(toxica1)
+EnemyList.append(toxica2)
+EnemyList.append(toxica3)
+EnemyList.append(toxica4)
+EnemyList.append(toxica5)
+EnemyList.append(cabezon)
+
+# Cargar video con moviepy
 
 
 # Crear Arma clase Weapon
@@ -286,7 +307,8 @@ clock = pygame.time.Clock()
 pygame.mixer.music.load("assets\sounds\EvilClub.mp3")
 pygame.mixer.music.play(-1)
 
-banknoteSound = pygame.mixer.Sound("assets\sounds\Banknote.mp3")
+# banknoteSound = pygame.mixer.Sound("assets\sounds\Banknote.mp3")
+# banknoteSound.set_volume(1)
 
 
 
@@ -345,7 +367,7 @@ while run:
 
           if bullet:
                groupBullets.add(bullet)
-               banknoteSound.play
+               # banknoteSound.play()
 
           for bullet in groupBullets:
                damage, damagePosition = bullet.update(EnemyList, world.obstaclesTiles)
@@ -360,6 +382,16 @@ while run:
           # Actualizar items
 
           groupItems.update(screenPosition, player)
+
+          if cabezon.alive == False:
+          # Si "cabezon" no está, reproducir el video
+               screen.fill(constants.BLACK)
+               textRect = winText.get_rect(center=(constants.WIDTH_SCREEN / 2,
+                                                       constants.HEIGHT_SCREEN / 2))
+               screen.blit(winText, textRect)
+               pygame.display.flip()  # Asegúrate de actualizar la pantalla
+               pygame.time.delay(3000)  # Pausa de 5 segundos (5000 milisegundos)
+               running = False  # Terminar el juego después de la pausa
     
     # Dibujar Mundo
 
@@ -439,6 +471,9 @@ while run:
                     move_up = False
             if event.key == pygame.K_s:
                     move_down = False
+
+
+    
 
 
     pygame.display.update()
