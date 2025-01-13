@@ -31,6 +31,8 @@ def nameDirectorys(directory):
 
 pygame.init()
 
+pygame.mixer.init()
+
 screen = pygame.display.set_mode((constants.WIDTH_SCREEN, constants.HEIGHT_SCREEN))
 
 pygame.display.set_caption("Boss Adventure")
@@ -44,12 +46,36 @@ screenPosition = [0, 0]
 
 font = pygame.font.Font("assets/fonts/mago3.ttf", 25)
 largeFont = pygame.font.Font("assets/fonts/mago3.ttf", 32)
-fontGameOver = pygame.font.Font("assets/fonts/mago3.ttf", 74)
+fontGameOver = pygame.font.Font("assets/fonts/mago3.ttf", 100)
+# fontRestart = pygame.font.Font("assets/fonts/mago3.ttf", 40)
 
-gameOverText = fontGameOver.render("MILEURISTA", True, constants.WHITE)
+gameOverText = fontGameOver.render("Mileurista", True, constants.WHITE)
+# textRestartButton = fontRestart.render("Restart", True, constants.BLACK)
 
 
 # Importar imagenes
+
+# Cargar la imagen del cursor
+cursor_image = pygame.image.load("assets/images/cursor/Puntero.png")  # Asegúrate de que la ruta sea correcta
+
+# Tamaño deseado para el cursor (ajusta a tu preferencia)
+cursor_size = (32, 32)  # Ejemplo: redimensionamos a 32x32 píxeles
+
+# Redimensionar la imagen del cursor
+cursor_image = pygame.transform.scale(cursor_image, cursor_size)
+
+# Obtener las dimensiones del cursor redimensionado
+cursor_width, cursor_height = cursor_image.get_size()
+
+# Definir el hotspot (punto de anclaje del cursor)
+cursor_hotspot = (0, 0)  # Puedes ajustar esto según donde deseas que esté el punto de anclaje del cursor
+
+# Crear el objeto del cursor
+cursor = pygame.cursors.Cursor(cursor_hotspot, cursor_image)
+
+# Establecer el cursor personalizado
+pygame.mouse.set_cursor(cursor)
+
 
 # Vida
 
@@ -166,6 +192,7 @@ def lifePlayer():
          else:
               screen.blit(heartEmpty, (5+i*50, 5))
         
+
 worldData = []
 
 
@@ -256,6 +283,16 @@ move_right = False
 #Control de FrameRate
 clock = pygame.time.Clock()
 
+pygame.mixer.music.load("assets\sounds\EvilClub.mp3")
+pygame.mixer.music.play(-1)
+
+banknoteSound = pygame.mixer.Sound("assets\sounds\Banknote.mp3")
+
+
+
+
+
+
 run = True
 
 while run:
@@ -266,6 +303,7 @@ while run:
     screen.fill(constants.COLOR_BG)
 
     drawGrid()
+
 
     if player.alive:
           #Calculate player movement
@@ -307,6 +345,7 @@ while run:
 
           if bullet:
                groupBullets.add(bullet)
+               banknoteSound.play
 
           for bullet in groupBullets:
                damage, damagePosition = bullet.update(EnemyList, world.obstaclesTiles)
@@ -367,6 +406,12 @@ while run:
          textRect = gameOverText.get_rect(center=(constants.WIDTH_SCREEN / 2,
                                                   constants.HEIGHT_SCREEN / 2))
          screen.blit(gameOverText, textRect)
+         # Restart Buttom
+     #     restartButton = pygame.Rect(constants.WIDTH_SCREEN / 2 -100,
+     #                                 constants.HEIGHT_SCREEN/ 2 +100, 200, 50)
+     #     pygame.draw.rect(screen, constants.YELLOW, restartButton)
+     #     screen.blit(textRestartButton, (restartButton.x + 50, restartButton.y + 10))
+
 
     for event in pygame.event.get():
         # Comprobamos si ha clicado en la X para salir de la ventana
@@ -382,7 +427,8 @@ while run:
                 move_up = True
             if event.key == pygame.K_s:
                 move_down = True
-
+          
+          
         #Soltar la tecla
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
